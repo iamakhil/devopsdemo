@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'get the code'
+                git 'https://github.com/iamdevopstrainer/DevOpsClassCodes'
+            }
+        }
+        stage('Compile') {
+            steps {
+                echo 'compiling the code'
+                sh '/usr/bin/mvn compile'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'testing...'
+                sh '/usr/bin/mvn test'
+            }
+        }
+        stage('Package') {
+            steps {
+                echo 'Packaging the code'
+                sh '/usr/bin/mvn package'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'deploying...'
+                sh 'sudo cp /var/lib/jenkins/workspace/addressdeptpip/target/addressbook.war /usr/share/tomcat/webapps/'
+            }
+        }
+        
+        }
+    }
